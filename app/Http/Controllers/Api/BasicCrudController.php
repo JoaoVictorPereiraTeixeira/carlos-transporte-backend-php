@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 abstract class BasicCrudController extends Controller
 {
-    protected $paginationSize = 15;
+    protected $paginationSize = 200;
     protected abstract function model();
     protected abstract function rulesStore();
     protected abstract function rulesUpdate();

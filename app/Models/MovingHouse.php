@@ -32,5 +32,9 @@ class MovingHouse extends Model
         'id' => 'string'
     ];
 
+    public function transportItems(){
+        return $this->hasMany(TransportItem::class);
+    }
+
     public $incrementing = false;
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\MovingHouse;
+use App\Models\TransportItem;
 use App\Services\Email;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,8 @@ class MovingHouseController extends BasicCrudController
             'dateToCollect'=> 'required|max:255',
             'typeHousing'=> 'required|max:255',
             'hasElevator'=> 'boolean|max:255',
-            'needHelper'=> 'boolean|max:255'
+            'needHelper'=> 'boolean|max:255',
+            'transportItems' => 'required|array'
         ];
     }
 
@@ -57,12 +59,14 @@ class MovingHouseController extends BasicCrudController
     {
         $validatedData = $this->validate($request, $this->rulesStore());
         $obj = $this->model()::create($validatedData);
-        $obj->refresh();
+
+        foreach($request->transportItems as $transportItem){
+            $obj->transportItems()->create($transportItem);
+        }
 
         $email = new Email();
-        $email->sendEmail("Nova solicitacao de cotacao - Mudança de casa","teste ão");
+        $email->sendEmail("Nova solicitacao de cotacao - Mudanca de Casa",$request);
 
-        return new $obj;
+        return $obj;
     }
-
 }
